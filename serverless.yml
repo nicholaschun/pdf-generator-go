@@ -1,0 +1,22 @@
+service: pdf-generator-go
+provider:
+  name: aws
+  runtime: go1.x
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-offline
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  generatePdf:
+    handler: bin/main
+    events:
+      - http:
+          path: /
+          method: post
